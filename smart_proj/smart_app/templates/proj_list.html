@@ -1,0 +1,76 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+
+<title>{% block title %}Project List{% endblock %}</title>
+<!-- Content wrapper -->
+<div class="content-wrapper">
+<!-- Content -->
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Manage Project/</span>Project List</h4>
+
+  <!-- Basic Bootstrap Table -->
+  <div class="card">
+    <h5 class="card-header">Project List</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Project No.</th>
+            <th>Client Id</th>
+            <th>Project Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Project Status</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        {% for pr in proj %}
+        <tbody class="table-border-bottom-0">
+          <tr>
+            <td><strong>{{forloop.counter}}.</strong></td>
+            <td><strong>{{pr.client_id}}</strong></td>
+            <td><strong>{{pr.project_name}}</strong></td>
+            <td><strong>{{pr.start_date}}</strong></td>
+            <td><strong>{{pr.end_date}}</strong></td>
+            {% if pr.proj_status == 'ACTIVE' %}
+            <td><span class="badge bg-label-primary me-1">Active</span></td>
+            {% elif pr.proj_status == 'COMPLETED' %}
+            <td><span class="badge bg-label-success me-1">COMPLETED</span></td>
+            {% elif pr.proj_status == 'PENDING' %}
+            <td><span class="badge bg-label-warning me-1">PENDING</span></td>
+            {% elif pr.proj_status == 'SCHEDDULED' %}
+            <td><span class="badge bg-label-info me-1">SCHEDULED</span></td>
+            {% else %}
+            <td><span class="badge bg-label-danger me-1">Inactive</span></td>
+            {% endif %}
+            {% if pr.active_status == True %}
+            <td><span class="badge bg-label-primary me-1">Active</span></td>
+            {% else %}
+            <td><span class="badge bg-label-danger me-1">Inactive</span></td>
+            {% endif %}
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item"  href="/proj_view/{{pr.proj_id}}/">View Team</a>
+                  <a class="dropdown-item" href="/edit_proj/{{pr.proj_id}}/">
+                    <i class="bx bx-edit-alt me-1"></i>
+                    Edit
+                  </a>
+                  <a class="dropdown-item" href="/proj_team/">Add Team</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+{% endblock %}

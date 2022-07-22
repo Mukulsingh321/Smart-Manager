@@ -1,0 +1,167 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+
+<title>{% block title %}Edit Client{% endblock %}</title>
+<link rel="stylesheet" href="../../static/assets/vendor/fonts/boxicons.css">
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../../../static/assets/vendor/css/core.css">
+    <link rel="stylesheet" href="../../static/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" >
+    <link rel="stylesheet" href="../../static/assets/css/demo.css" >
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../../static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+    <link rel="stylesheet" href="../../static/assets/vendor/libs/apex-charts/apex-charts.css">
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="../../static/assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../../static/assets/js/config.js"></script>
+<div class="container-xxl">
+    <div class="row container-p-y">
+      <div class="col-xl">
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Edit Client</h5>
+            </div>
+            <div class="card-body">
+              <form id="edit_client" name="edit_client"  method="post" data-cities-url="{% url 'ajax_load_cities' %}">
+                {% csrf_token %}
+
+
+                <div class="switchRight">
+                  <div class="switchSpace">
+                    <label><b>STATUS</b>:</label>
+                    <label class="switch">
+                      <input type="checkbox" value="{{ed_emp.emp_status}}" id="checkbox" name="checkbox" {% if ed_cl.active_status == True %} checked {% else %}  {% endif %}>
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="comp_name">Company Name</label>
+                  <input type="text" class="form-control" id="comp_name" value="{{ed_cl.company_name}}" name="comp_name" placeholder="Company Name"  required />
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="first_name">First Name</label>
+                  <input type="text" class="form-control" id="first_name" value="{{ed_cl.first_name}}" name="first_name" placeholder="First Name"  required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="last_name">Last Name</label>
+                  <input type="text" class="form-control" id="last_name" value="{{ed_cl.last_name}}" name="last_name" placeholder="Last Name"  required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="mobile">Mobile No.</label>
+                  <input type="number" class="form-control" id="mobile" name="mobile" value="{{ed_cl.mobile}}" placeholder="Mobile No." required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="alternate">Alternative Mobile No.</label>
+                  <input type="number" class="form-control" id="alternate" name="alternate" value="{{ed_cl.alternative}}" placeholder="Alternative Mobile No." required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="email">Email</label>
+                  <div class="input-group input-group-merge">
+                    <input type="email" id="email" name="email" class="form-control" value="{{ed_cl.email}}" placeholder="Email" required/>
+                    <span class="input-group-text" >..@gmail.com</span>
+                  </div>
+                  <div class="form-text">You can use letters, numbers & periods</div>
+                </div>
+
+
+                <div class="mb-3 col-6">
+                  <div class="cityStateWrap">
+                    <div class="cityMain">
+                      <label class="form-label">State</label><br>
+                      <select class="cm-dropdown dropdown-toggle" id="state" name="state" required>
+                        <option disabled value="" selected>Select State</option>
+                        <option name="state_value" selected value="{{ed_cl.state_id.SID}}">{{ed_cl.state}}</option>
+                        {% for st in state %}
+                        <option selected value="{{st.SID}}">{{st.stateName}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    <div class="cityMain">
+                      <label class="form-label">City</label><br>
+                      <select name="city" id="city" class="cm-dropdown dropdown-toggle" required>
+                        <option value="" disabled selected > Select City</option>
+                        <option selected value="{{ed_cl.city_id.CTID}}">{{ed_cl.city_id}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="join_date">Join Date</label>
+                  <div class="addAndRemove">
+                  <input type="datetime-local" class="form-control" value="{{ed_cl.join_date}}" data-date-format="YYYY-MM-DDTHH:MM:SS" id="join_date" name="join_date" required/>
+                  </div>
+                </div>
+
+                  <div class="mb-3 col-12">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+              </form>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+              <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+              <script>
+                $("#state").change(function () {
+                  var url = $("#employee").attr("data-cities-url");
+                  var stateId = $(this).val();
+
+                  $.ajax({
+                    url: url,
+                    data: {
+                      'state0': stateId
+                    },
+                    success: function (data) {
+                      $("#city").html(data);
+                    }
+                  });
+
+                });
+
+                {% for msg in messages %}
+                    window.onload = function(){
+                      alert('{{msg}}')
+                    }
+                {% endfor %}
+
+              </script>
+              <script src="../../static/assets/vendor/libs/jquery/jquery.js"></script>
+              <script src="../../static/assets/vendor/libs/popper/popper.js"></script>
+              <script src="../../static/assets/vendor/js/bootstrap.js"></script>
+              <script src="../../static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+              <script src="../../static/assets/vendor/js/menu.js"></script>
+              <!-- endbuild -->
+
+              <!-- Vendors JS -->
+              <script src="../../static/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+              <!-- Main JS -->
+              <script src="../../static/assets/js/main.js"></script>
+
+              <!-- Page JS -->
+              <script src="../../static/assets/js/dashboards-analytics.js"></script>
+
+              <!-- Place this tag in your head or just before your close body tag. -->
+              <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

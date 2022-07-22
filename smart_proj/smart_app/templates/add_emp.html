@@ -1,0 +1,168 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+
+
+
+<!--content-->
+<title>{% block title %}Add Employee{% endblock %}</title>
+  <div class="container-xxl">
+    <div class="row container-p-y">
+      <div class="col-xl">
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Add Employee</h5>
+            </div>
+            <div class="card-body">
+              <form id="employee" name="employee" method="post" data-cities-url="{% url 'ajax_load_cities' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row">
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="emp_code">Employee Code</label>
+                  <input type="text" class="form-control" id="emp_code" name="emp_code" placeholder="Employee Code"  required />
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="first_name">First Name</label>
+                  <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name"  required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="last_name">Last Name</label>
+                  <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name"  required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="mobile">Mobile No.</label>
+                  <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile No."  required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="alternate">Alternative Mobile No.</label>
+                  <input type="number" class="form-control" id="alternate" name="alternate" placeholder="Alternative Mobile No." required />
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="email">Email</label>
+                  <div class="input-group input-group-merge">
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" required/>
+                    <span class="input-group-text" >...@qwertycode.in</span>
+                  </div>
+                  <div class="form-text">You can use letters, numbers & periods</div>
+                </div>
+
+
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="r_addrerss">Resident Address</label>
+                  <input type="text" class="form-control" id="r_addrerss" name="r_addrerss" placeholder="Resident Address"  required/>
+                </div>
+
+                <div class="mb-3 col-6">
+                  <div class="cityStateWrap">
+                    <div class="cityMain">
+                      <label class="form-label">Resident state</label><br>
+                      <select class="cm-dropdown dropdown-toggle" id="state" name="state" required>
+                        <option disabled value="" selected="true">Select State</option>
+                        {% for st in state %}
+                        <option value="{{st.SID}}">{{st.stateName}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    <div class="cityMain">
+                      <label class="form-label">Resident City</label><br>
+                      <select name="city" id="city" class="cm-dropdown dropdown-toggle" required>
+                        <option>Select City</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-3 col-6">
+                  <label class="form-label" for="p_address">Permanent Address </label>
+                  <input type="text" class="form-control" id="p_address" name="p_address" placeholder="Permanent Address" required/>
+                </div>
+
+                <div class="mb-3 col-6">
+                  <div class="cityStateWrap">
+                    <div class="cityMain">
+                      <label class="form-label">State</label><br>
+                      <select class="cm-dropdown dropdown-toggle" id="state1" name="state1" required>
+                        <option value="" disabled selected >Select State</option>
+                        {% for st in state %}
+                        <option value="{{st.SID}}">{{st.stateName}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="cityMain">
+                      <label class="form-label">City</label><br>
+                      <select class="cm-dropdown dropdown-toggle" id="city1" name="city1" required>
+                        <option>Select City</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-3 col-6">
+                  <label class="form-label"  for="join_date">Join Date</label>
+                  <input type="date" class="form-control" id="join_date" name="join_date" placeholder="date" required/>
+                </div>
+
+                  <div class="mb-3 col-6">
+                    <label class="form-label" for="image">Upload Image</label>
+                    <input type="file" id="image" name="image" class="form-control" accept="image/*" required />
+                  </div>
+
+                  <div class="mb-3 col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+              </form>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+              <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+              <script>
+
+                $("#state").change(function () {
+                  var url = $("#employee").attr("data-cities-url");
+                  var stateId = $(this).val();
+
+                  $.ajax({
+                    url: url,
+                    data: {
+                      'state0': stateId
+                    },
+                    success: function (data) {
+                      $("#city").html(data);
+                    }
+
+                  });
+
+                });
+
+
+                $("#state1").change(function () {
+                  var url = $("#employee").attr("data-cities-url");
+                  var stateId = $(this).val();
+
+                  $.ajax({
+                    url: url,
+                    data: {
+                      'state0': stateId
+                    },
+                    success: function (data) {
+                      $("#city1").html(data);
+                    }
+                  });
+
+                });
+
+                {% for msg in messages %}
+                    window.onload = function(){
+                      alert('{{msg}}')
+                    }
+                {% endfor %}
+
+              </script>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<!-- / Content -->
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+<title>{% block title %}Employee Tech list{% endblock %}</title>
+<!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Employee Tech/</span> Employee Tech List</h4>
+
+              <!-- Basic Bootstrap Table -->
+              <div class="card">
+                <h5 class="card-header">Employee Tech List</h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Sn No.</th>
+                        <th>Employee Technology</th>
+                        <th>Employee Name</th>
+                        <th>Employee Status</th>
+                      </tr>
+                    </thead>
+                    {% for em in emp %}
+                    <tbody class="table-border-bottom-0">
+                      <tr>
+                        <td><strong>{{forloop.counter}}.</strong></td>
+                        <td><strong>{{em.tech}}</strong></td>
+                        <td><strong>{{em.emp_id.first_name}} {{em.emp_id.last_name}}</strong></td>
+                        {% if em.active_status == True %}
+                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                        {% else %}
+                        <td><span class="badge bg-label-danger me-1">Inactive</span></td>
+                        {% endif %}
+                        <td>
+                          <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="/edit_emp/{{em.emp_code}}/">Edit</a>
+<!--                              <a class="dropdown-item" href="/emp_list/{{em.emp_code}}/">View</a>-->
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
+              <!--/ Basic Bootstrap Table -->
+{% endblock %}

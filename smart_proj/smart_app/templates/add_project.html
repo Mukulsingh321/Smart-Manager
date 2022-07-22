@@ -1,0 +1,70 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+
+<title>{% block title %}Add Project{% endblock %}</title>
+  <div class="container-xxl">
+    <div class="row container-p-y">
+      <div class="col-xl">
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Add Project</h5>
+            </div>
+            <div class="card-body">
+              <form id="add_project" name="add_project" method="post">
+                {% csrf_token %}
+                <div class="row">
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="proj_name">Project Name</label>
+                  <input type="text" class="form-control" id="proj_name" name="proj_name" placeholder="Project Name"  required />
+                </div>
+
+
+                <div class="mb-3 col-6">
+                  <div class="RoleWrap">
+                    <div class="RoleMain">
+                    <label class="form-label">Select Client</label><br>
+                    <select class="cm-dropdown dropdown-toggle" id="client" name="client" required>
+                      <option value="" disabled selected >Select Client</option>
+                      {% for cl in client %}
+                      <option value="{{cl.client_id}}">{{cl.company_name}}</option>
+                      {% endfor %}
+                    </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="start_date">Project Start Date</label>
+                  <input type="date" class="form-control" id="start_date" name="start_date" required/>
+                </div>
+
+
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="end_date">Project End Date</label>
+                  <input type="date" class="form-control" id="end_date" name="end_date" required/>
+                </div>
+
+                  <div class="mb-3 col-12">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+              </form>
+
+              <script>
+                {% for msg in messages %}
+                    window.onload = function(){
+                      alert('{{msg}}')
+                    }
+                {% endfor %}
+              </script>
+
+
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

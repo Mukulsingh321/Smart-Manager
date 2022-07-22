@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Address</title>
+</head>
+<body>
+<form>
+    <select>
+    {% for ct in city %}
+    <option>{{ct.city_name}}</option>
+    {% endfor %}
+    </select>
+</form>
+<button type="submit">Submit</button>
+</body>
+</html>

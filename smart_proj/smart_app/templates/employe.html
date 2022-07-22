@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+
+<div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+            <div class="card">
+                    <div class="card-body">
+                      <h4 class="mb-2">Employee Master 🚀</h4>
+                      <p class="mb-4">Make your app management easy and fun</p>
+                        <form class="mb-3" action="#" id ="PersonForm" method="post" data-cities-url="{% url 'ajax_load_cities' %}">
+                            <div class="row">
+                                {% for fields in form %}
+                            <div class="mb-3 col-6">
+                            {% csrf_token %}
+                            <label class="form-label">{{fields.name}}</label><br>
+                            {{fields}}
+                            </div>
+                            {% endfor %}
+                            </div>
+                            <input class="btn btn-primary d-grid w-100" type="submit" value="Submit">
+                        </form>
+                        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+                        <script>
+                            $("#state").change(function () {
+                                const url = $("#PersonForm").attr("data-cities-url");  // get the url of the `load_cities` view
+                                const stateId = $(this).val();  // get the selected country ID from the HTML input
+
+                                $.ajax({                       // initialize an AJAX request
+                                    url: url,                    // set the url of the request (= /persons/ajax/load-cities/ )
+                                    data: {
+                                        'state_id': stateId       // add the country id to the GET parameters
+                                    },
+                                    success: function (data) {   // `data` is the return of the `load_cities` view function
+                                        $("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
+                                        /*
+                                        let html_data = '<option value="">---------</option>';
+                                        data.forEach(function (r_city) {
+                                            html_data += `<option value="${city_master.id}">${city_master.city_name}</option>`
+                                        });
+                                        console.log(html_data);
+                                        $("#id_city").html(html_data);
+                                        */
+                                    }
+                                });
+
+                            });
+                        </script>
+                    </div>
+            </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}

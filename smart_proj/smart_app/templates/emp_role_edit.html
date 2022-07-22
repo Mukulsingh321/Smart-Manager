@@ -1,0 +1,90 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+
+<link rel="icon" type="../../static/image/x-icon" href="../static/assets/img/favicon/quert_img.ico">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../static/assets/vendor/fonts/boxicons.css">
+<link rel="stylesheet" href="../../static/assets/vendor/css/core.css">
+<link rel="stylesheet" href="../../static/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" >
+<link rel="stylesheet" href="../../static/assets/css/demo.css" >
+<link rel="stylesheet" href="../../static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" href="../../static/assets/vendor/libs/apex-charts/apex-charts.css">
+<script src="../../static/assets/vendor/js/helpers.js"></script>
+<script src="../../static/assets/js/config.js"></script>
+
+    <body>
+<title>{% block title %}Employee Role Edit{% endblock %}</title>
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <div class="card">
+            <div class="card-body">
+              <div class="app-brand justify-content-center">
+                <a href="/index/" class="app-brand-link gap-2">
+                </a>
+              </div>
+              <h4 class="mb-2">Employee Role</h4><br>
+              <form class="mb-3" action="/emp_role_edit/" method="post">
+                {% csrf_token %}
+
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="col-6 mb-3">
+                    <div class="mb-3 full-w">
+                  <div class="RoleWrap">
+                    <div class="RoleMain">
+                    <label class="form-label">Select Employee</label><br>
+                    <select class="cm-dropdown dropdown-toggle" id="employee" name="employee" required>
+                      <option value="" disabled selected="true">Select Employee</option>
+                      {% for em in emp %}
+                      <option selected value="{{em.emp_id}}">{{em.first_name}} {{em.last_name}}</option>
+                      {% endfor %}
+                    </select>
+                    </div>
+                  </div>
+                </div>
+                  </div>
+
+                      <div class="col-sm-6">
+                          <label class="form-label">Role</label><br>
+                        <select name="role_name"  multiple id="RoleSelect" required>
+                            {% for rl in rol %}
+                            <option value="{{rl.role_id}}">{{rl.name}}</option>
+                            {% endfor %}
+                        </select>
+                      </div>
+
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary d-grid w-100" >Submit</button>
+              </form>
+              <div class="mb-3">
+
+                  <script>
+                      jQuery('#RoleSelect').multiselect({
+                            columns: 1,
+                            placeholder: 'Select Role',
+                            search: true
+                      });
+                  </script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </body>
+
+
+<script src="../../static/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../../static/assets/vendor/libs/popper/popper.js"></script>
+<script src="../../static/assets/vendor/js/bootstrap.js"></script>
+<script src="../../static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="../../static/assets/vendor/js/menu.js"></script>
+<script src="../../static/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+<script src="../../static/assets/js/main.js"></script>
+<script src="../../static/assets/js/dashboards-analytics.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+{% endblock %}

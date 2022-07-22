@@ -1,0 +1,108 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+  <body>
+    <!-- Content -->
+<title>{% block title %}Employee Role{% endblock %}</title>
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register Card -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="/index/" class="app-brand-link gap-2">
+                </a>
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-2">Employee Role</h4><br>
+              <form class="mb-3" action="/emp_role/" method="post">
+                {% csrf_token %}
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="col-6 mb-3">
+                    <div class="mb-3 full-w">
+                  <div class="RoleWrap">
+                    <div class="RoleMain">
+                    <label class="form-label">Select Employee</label><br>
+                    <select class="cm-dropdown dropdown-toggle" id="employee" name="employee" required>
+                      <option value="" disabled selected="true">Select Employee</option>
+                      {% for em in emp %}
+                      <option value="{{em.emp_id}}">{{em.first_name}} {{em.last_name}}</option>
+                      {% endfor %}
+                    </select>
+                    </div>
+                  </div>
+                </div>
+                  </div>
+                      <div class="col-sm-6">
+                          <label class="form-label">Role</label><br>
+
+
+
+                            <div id="list1" class="dropdown-check-list" tabindex="100" >
+                            <span class="anchor dropdownCheckbox">Select Role</span>
+                            <div id="dropSearch">
+                                <ul class="searchUl">
+                                    <li><input id="myInput" type="text" placeholder="Search.."></li>
+                                </ul>
+                                <ul id="items" class="items">
+                                {% for rl in rol %}
+                                <li>
+                                    <label for="{{rl.role_id}}">
+                                        <input id="{{rl.role_id}}" type="checkbox" {% if rl.active_status == False %} disabled {% else %} name="role_name" value="{{rl.role_id}}"/> {% endif %}<span>{{rl.name}} </span >
+                                    </label>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            </div>
+                            </div>
+
+
+
+
+
+
+<!--                        <select name="role_name"  multiple id="languageSelect" required>-->
+<!--                            {% for rl in rol %}-->
+<!--                            <option  name="role_name" value="{{rl.role_id}}">{{rl.name}} </option>-->
+<!--                            {% endfor %}-->
+<!--                        </select>-->
+<!--                          -->
+
+
+                      </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary d-grid w-100" value="Validate" onclick="return Validate();">Submit</button>
+              </form>
+              <div class="mb-3">
+                  {% for msg in messages %}
+                  <script>
+                    window.onload = function(){
+                      alert('{{msg}}')
+                    }
+
+                  </script>
+                  {% endfor %}
+
+                  <script>
+                      function Validate() {
+                        var employee = document.getElementById("employee");
+                        if (employee.value == "Select Employee") {
+                            alert("Please select Employee!");
+                            return false;
+                        }
+                        return true;
+                      }
+                  </script>
+              </div>
+            </div>
+          </div>
+          <!-- Register Card -->
+        </div>
+      </div>
+    </div>
+  </body>
+{% endblock %}

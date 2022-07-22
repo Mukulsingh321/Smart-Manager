@@ -1,0 +1,111 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+
+<title>{% block title %}Add Client{% endblock %}</title>
+  <div class="container-xxl">
+    <div class="row container-p-y">
+      <div class="col-xl">
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Add Client</h5>
+            </div>
+            <div class="card-body">
+              <form id="employee" name="add_client" method="post" data-cities-url="{% url 'ajax_load_cities' %}">
+                {% csrf_token %}
+                <div class="row">
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="comp_name">Company Name</label>
+                  <input type="text" class="form-control" id="comp_name" name="comp_name" placeholder="Company Name"  required />
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="first_name">First Name</label>
+                  <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name"  required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="last_name">Last Name</label>
+                  <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name"  required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="mobile">Mobile No.</label>
+                  <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile No." required/>
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="alternate">Alternative Mobile No.</label>
+                  <input type="number" class="form-control" id="alternate" name="alternate" placeholder="Alternative Mobile No." />
+                </div>
+                <div class="mb-3 col-6">
+                  <label class="form-label" for="email">Email</label>
+                  <div class="input-group input-group-merge">
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" required/>
+                    <span class="input-group-text" >..@gmail.com</span>
+                  </div>
+                  <div class="form-text">You can use letters, numbers & periods</div>
+                </div>
+
+
+                <div class="mb-3 col-6">
+                  <div class="cityStateWrap">
+                    <div class="cityMain">
+                      <label class="form-label">State</label><br>
+                      <select class="cm-dropdown dropdown-toggle" id="state" name="state" required="required">
+                        <option value="" disabled selected>Select State</option>
+                        {% for st in state %}
+                        <option value="{{st.SID}}">{{st.stateName}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    <div class="cityMain">
+                      <label class="form-label">City</label><br>
+                      <select name="city" id="city" class="cm-dropdown dropdown-toggle" required >
+                        <option value="">Select City</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-3 col-6">
+                  <label class="form-label" for="join_date">Join Date</label>
+                  <input type="datetime-local" class="form-control" id="join_date" name="join_date" required />
+                </div>
+
+                  <div class="mb-3 col-12">
+                    <button type="submit" class="btn btn-primary" >Submit</button>
+                  </div>
+              </form>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+              <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+              <script>
+                $("#state").change(function () {
+                  var url = $("#employee").attr("data-cities-url");
+                  var stateId = $(this).val();
+
+                  $.ajax({
+                    url: url,
+                    data: {
+                      'state0': stateId
+                    },
+                    success: function (data) {
+                      $("#city").html(data);
+                    }
+                  });
+
+                });
+
+                {% for msg in messages %}
+                    window.onload = function(){
+                      alert('{{msg}}')
+                    }
+                {% endfor %}
+
+              </script>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

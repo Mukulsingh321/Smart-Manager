@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+
+<title>{% block title %}Employee Tech{% endblock %}</title>
+<body>
+  <div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+      <div class="authentication-inner">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="mb-2">Employee Technology</h4><br>
+              <form class="mb-3" action="/emp_tech/" method="post">
+                {% csrf_token %}
+
+              <div class="mb-3 col-12">
+                <div class="mb-3 col-6" >
+                  <div class="TechWrap">
+                    <div class="TechMain">
+                  <label class="form-label">Select Employee</label><br>
+                  <select class="cm-dropdown dropdown-toggle" id="employee" name="employee">
+                    <option disabled selected="true">Select Employee</option>
+                    {% for em in emp %}
+                    <option value="{{em.emp_id}}">{{em.first_name}} {{em.last_name}}</option>
+                    {% endfor %}
+                  </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="mb-3 col-6" >
+                  <div class="TechWrap">
+                    <div class="TechMain">
+                  <label class="form-label">Select Technology</label><br>
+                  <select class="cm-dropdown dropdown-toggle" id="tech_name" name="tech_name">
+                    <option disabled selected="true">Select Technology</option>
+                    {% for tm in tech %}
+                    <option value="{{tm.tech_id}}">{{tm.name}}</option>
+                    {% endfor %}
+                  </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <button type="submit" id="submit" class="btn btn-primary d-grid w-100">Submit</button>
+              </form>
+                <script>
+                  {% for msg in messages %}
+
+                      window.onload = function(){
+                        alert('{{msg}}')
+                      }
+                  {% endfor %}
+                </script>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}
